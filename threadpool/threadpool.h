@@ -48,6 +48,7 @@ threadpool<T>::threadpool( int actor_model, connection_pool *connPool, int threa
             delete[] m_threads;
             throw std::exception();
         }
+        //标记为分离状态，子线程的资源会自动回收
         if (pthread_detach(m_threads[i]))
         {
             delete[] m_threads;
@@ -60,6 +61,9 @@ threadpool<T>::~threadpool()
 {
     delete[] m_threads;
 }
+//为任务队列增加一个任务，并发出请求
+//模式一
+//m_state 0代表读 1代表写
 template <typename T>
 bool threadpool<T>::append(T *request, int state)
 {
@@ -75,6 +79,7 @@ bool threadpool<T>::append(T *request, int state)
     m_queuestat.post();
     return true;
 }
+//模式二
 template <typename T>
 bool threadpool<T>::append_p(T *request)
 {
@@ -89,6 +94,7 @@ bool threadpool<T>::append_p(T *request)
     m_queuestat.post();
     return true;
 }
+//工作线程
 template <typename T>
 void *threadpool<T>::worker(void *arg)
 {

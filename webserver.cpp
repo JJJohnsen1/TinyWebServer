@@ -89,7 +89,6 @@ void WebServer::sql_pool()
     //初始化数据库连接池
     m_connPool = connection_pool::GetInstance();
     m_connPool->init("localhost", m_user, m_passWord, m_databaseName, 3306, m_sql_num, m_close_log);
-
     //初始化数据库读取表
     users->initmysql_result(m_connPool);
 }
@@ -201,6 +200,7 @@ bool WebServer::dealclientdata()
 {
     struct sockaddr_in client_address;
     socklen_t client_addrlength = sizeof(client_address);
+    //LT模式
     if (0 == m_LISTENTrigmode)
     {
         int connfd = accept(m_listenfd, (struct sockaddr *)&client_address, &client_addrlength);
@@ -217,7 +217,7 @@ bool WebServer::dealclientdata()
         }
         timer(connfd, client_address);
     }
-
+    //ET模式
     else
     {
         while (1)

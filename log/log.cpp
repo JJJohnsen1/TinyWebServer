@@ -38,11 +38,12 @@ bool Log::init(const char *file_name, int close_log, int log_buf_size, int split
     memset(m_buf, '\0', m_log_buf_size);
     m_split_lines = split_lines;
 
+    //创建日志文件，包含名称和时间
     time_t t = time(NULL);
     struct tm *sys_tm = localtime(&t);
     struct tm my_tm = *sys_tm;
 
- 
+   
     const char *p = strrchr(file_name, '/');
     char log_full_name[256] = {0};
 
@@ -67,7 +68,8 @@ bool Log::init(const char *file_name, int close_log, int log_buf_size, int split
 
     return true;
 }
-
+//日志是写在当天。如果换天则会重新创建日志文件，并更新类中关于日志文件的数据。
+//一天中可能有多个日志文件，见121行
 void Log::write_log(int level, const char *format, ...)
 {
     struct timeval now = {0, 0};

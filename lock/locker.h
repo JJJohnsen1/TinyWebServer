@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 
-class sem
+class sem 
 {
 public:
     sem()

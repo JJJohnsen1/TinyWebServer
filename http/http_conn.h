@@ -29,9 +29,13 @@
 class http_conn
 {
 public:
+    //读取文件的名称m_real_file大小
     static const int FILENAME_LEN = 200;
+    //读缓冲区m_read_buf大小
     static const int READ_BUFFER_SIZE = 2048;
+    //写缓冲区m_write_buf大小
     static const int WRITE_BUFFER_SIZE = 1024;
+    //报文请求方法
     enum METHOD
     {
         GET = 0,
@@ -44,12 +48,14 @@ public:
         CONNECT,
         PATH
     };
+    //主状态机状态
     enum CHECK_STATE
     {
         CHECK_STATE_REQUESTLINE = 0,
         CHECK_STATE_HEADER,
         CHECK_STATE_CONTENT
     };
+    //报文解析结果
     enum HTTP_CODE
     {
         NO_REQUEST,
@@ -61,6 +67,7 @@ public:
         INTERNAL_ERROR,
         CLOSED_CONNECTION
     };
+    //从状态机状态
     enum LINE_STATUS
     {
         LINE_OK = 0,

@@ -16,7 +16,7 @@ sort_timer_lst::~sort_timer_lst()
         tmp = head;
     }
 }
-
+//根据链表节点的时间从小到大
 void sort_timer_lst::add_timer(util_timer *timer)
 {
     if (!timer)
@@ -37,6 +37,7 @@ void sort_timer_lst::add_timer(util_timer *timer)
     }
     add_timer(timer, head);
 }
+//某个定时器的过期时间被调整时，重新调整其在链表中的位置，以确保链表仍然按照过期时间从小到大排序。
 void sort_timer_lst::adjust_timer(util_timer *timer)
 {
     if (!timer)
@@ -62,6 +63,7 @@ void sort_timer_lst::adjust_timer(util_timer *timer)
         add_timer(timer, timer->next);
     }
 }
+//删除一个timer
 void sort_timer_lst::del_timer(util_timer *timer)
 {
     if (!timer)
@@ -93,6 +95,7 @@ void sort_timer_lst::del_timer(util_timer *timer)
     timer->next->prev = timer->prev;
     delete timer;
 }
+//将到期的节点用cb_func(tmp->user_data)函数处理
 void sort_timer_lst::tick()
 {
     if (!head)
@@ -118,7 +121,7 @@ void sort_timer_lst::tick()
         tmp = head;
     }
 }
-
+//在lst_head链表头中加入timer
 void sort_timer_lst::add_timer(util_timer *timer, util_timer *lst_head)
 {
     util_timer *prev = lst_head;
